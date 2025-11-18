@@ -2,6 +2,8 @@
 % BASE DE DADOS - DIAGNÓSTICO DE COMPUTADORES
 % ==========================
 
+%Fatos
+
 % --- Sintomas relacionados a hardware ---
 sintoma(computador_nao_liga).
 sintoma(tela_preta_ao_iniciar).
@@ -65,6 +67,31 @@ causa(configuracao_rede_incorreta).
 causa(interferencia_wifi).
 causa(problema_provedor_internet).
 
+% --- Componentes de hardware ---
+componente(fonte).
+componente(placa_mae).
+componente(memoria_ram).
+componente(hd).
+componente(processador).
+componente(placa_de_video).
+componente(cooler).
+componente(bateria_cmos).
+
+% --- Componentes de software ---
+componente(sistema_operacional).
+componente(driver).
+componente(antivirus).
+componente(programa).
+componente(registro_sistema).
+
+% --- Componentes de rede ---
+componente(modem).
+componente(roteador).
+componente(placa_de_rede).
+componente(cabo_rede).
+componente(dns).
+componente(ip).
+
 % --- Relações entre sintomas e causas (para referência futura) ---
 relacao(computador_nao_liga, fonte_queimada).
 relacao(computador_nao_liga, cabo_energia_solto).
@@ -92,30 +119,6 @@ relacao(desconexao_frequente, roteador_com_defeito).
 relacao(rede_nao_identificada, configuracao_rede_incorreta).
 relacao(wifi_desconecta_sozinha, interferencia_wifi).
 
-% --- Componentes de hardware ---
-componente(fonte).
-componente(placa_mae).
-componente(memoria_ram).
-componente(hd).
-componente(processador).
-componente(placa_de_video).
-componente(cooler).
-componente(bateria_cmos).
-
-% --- Componentes de software ---
-componente(sistema_operacional).
-componente(driver).
-componente(antivirus).
-componente(programa).
-componente(registro_sistema).
-
-% --- Componentes de rede ---
-componente(modem).
-componente(roteador).
-componente(placa_de_rede).
-componente(cabo_rede).
-componente(dns).
-componente(ip).
 
 problema(Sintoma, Causa) :- relacao(Sintoma, Causa).
 
@@ -193,3 +196,58 @@ diagnostico(Sintoma, Causa, Solucao, Tipo) :-
     tipo_causa(Causa, Tipo).
 
 
+% =================
+% MÓDULO DE STATUS 
+% =================
+
+info_hardware(cpu, 'Intel i7-10700K', 8). 
+info_hardware(ram, 'DDR4', 16).
+info_hardware(disco_c, 'SSD NVMe', 512). 
+
+info_software(antivirus, 'Ativo').
+info_software(uso_disco_c, 95). % Uso em porcentagem
+info_software(temperatura_cpu, 85). % Temperatura em Celsius
+info_software(dias_ligado, 3). % Dias que o sistema está ligado
+
+% Status de Temperatura da CPU
+status_cpu_temperatura('SUPER-AQUECIMENTO!') :-
+    info_software(temperatura_cpu, Temp),
+    Temp > 80.
+status_cpu_temperatura('Normal') :-
+    info_software(temperatura_cpu, Temp),
+    Temp =< 80.
+
+% Status de Uso do Disco
+status_disco_uso('DISCO QUASE CHEIO!') :-
+    info_software(uso_disco_c, Uso),
+    Uso >= 90.
+status_disco_uso('Normal') :-
+    info_software(uso_disco_c, Uso),
+    Uso < 90.
+
+% Status de Suficiência de RAM
+status_ram_suficiencia('Recomendado: 16GB+') :-
+    info_hardware(ram, _, RAM_GB),
+    RAM_GB >= 16.
+status_ram_suficiencia('Aceitável: 8GB') :-
+    info_hardware(ram, _, RAM_GB),
+    RAM_GB < 16,
+    RAM_GB >= 8.
+status_ram_suficiencia('Baixo: Considere Upgrade') :-
+    info_hardware(ram, _, RAM_GB),
+    RAM_GB < 8.
+
+% Status de Manutenção
+status_manutencao('Reinicialização Pendente') :-
+    info_software(dias_ligado, Dias),
+    Dias >= 7.
+status_manutencao('OK') :-
+    info_software(dias_ligado, Dias),
+    Dias < 7.
+
+% Status do Antivírus
+status_antivirus('Segurança OK') :-
+    info_software(antivirus, 'Ativo').
+status_antivirus('ALERTA: Antivírus Inativo') :-
+    info_software(antivirus, Status),
+    Status \= 'Ativo'.
