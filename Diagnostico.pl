@@ -67,13 +67,47 @@ causa(configuracao_rede_incorreta).
 causa(interferencia_wifi).
 causa(problema_provedor_internet).
 
+%----niveis de risco hardware ----
+gravidade(fonte_queimada, alta).
+gravidade(memoria_ram_defeituosa, media).
+gravidade(hd_com_setores_danificados, alta).
+gravidade(placa_mae_defeituosa, alta).
+gravidade(processador_superaquecendo, alta).
+gravidade(cabo_energia_solto, baixa).
+gravidade(placa_de_video_defeituosa, media).
+gravidade(fonte_insuficiente, media).
+gravidade(cooler_parado, media).
+gravidade(bateria_cmos_fraca, baixa).
+
+%----niveis de risco software ----
+gravidade(driver_incorreto, media).
+gravidade(virus_ou_malware, alta).
+gravidade(atualizacao_mal_sucedida, media).
+gravidade(arquivos_sistema_corrompidos, alta).
+gravidade(excesso_programas_inicializacao, baixa).
+gravidade(falta_de_memoria_virtual, media).
+gravidade(software_incompativel, baixa).
+gravidade(instalacao_incompleta_do_sistema, alta).
+gravidade(registro_corrompido, media).
+
+%----niveis de risco rede ----
+gravidade(modem_desconectado, baixa).
+gravidade(roteador_com_defeito, media).
+gravidade(cabo_rede_danificado, baixa).
+gravidade(dns_invalido, media).
+gravidade(ip_conflitante, media).
+gravidade(driver_rede_desatualizado, baixa).
+gravidade(configuracao_rede_incorreta, media).
+gravidade(interferencia_wifi, baixa).
+gravidade(problema_provedor_internet, alta).
+
 % --- Componentes de hardware ---
 componente(fonte).
 componente(placa_mae).
 componente(memoria_ram).
 componente(hd).
 componente(processador).
-componente(placa_de_video).
+componente(placa_video).
 componente(cooler).
 componente(bateria_cmos).
 
@@ -127,38 +161,39 @@ tipo_causa(interferencia_wifi, rede).
 tipo_causa(problema_provedor_internet, rede).
 
 % --- Causas relacionadas a componentes de hardware ---
-causa_compomente(fonte_queimada, fonte).
-causa_compomente(cabo_energia_solto, fonte).
-causa_compomente(placa_mae_defeituosa, placa_mae).
-causa_compomente(memoria_ram_defeituosa, memoria_ram).
-causa_compomente(processador_superaquecendo, processador).
-causa_compomente(hd_com_setores_danificados, hd).
-causa_compomente(placa_de_video_defeituosa, placa_de_video).
-causa_compomente(fonte_insuficiente, fonte).
-causa_compomente(cooler_parado, cooler).
-causa_compomente(bateria_cmos_fraca, bateria_cmos).
+causa_componente(fonte_queimada, fonte).
+causa_componente(cabo_energia_solto, fonte).
+causa_componente(placa_mae_defeituosa, placa_mae).
+causa_componente(memoria_ram_defeituosa, memoria_ram).
+causa_componente(processador_superaquecendo, processador).
+causa_componente(hd_com_setores_danificados, hd).
+causa_componente(placa_de_video_defeituosa, placa_video).
+causa_componente(fonte_insuficiente, fonte).
+causa_componente(cooler_parado, cooler).
+causa_componente(bateria_cmos_fraca, bateria_cmos).
 
 % --- Causas relacionadas a componentes de software ---
-causa_compomente(driver_incorreto, driver).
-causa_compomente(virus_ou_malware, antivirus).
-causa_compomente(atualizacao_mal_sucedida, sistema_operacional).
-causa_compomente(arquivos_sistema_corrompidos, sistema_operacional).
-causa_compomente(excesso_programas_inicializacao, programa).
-causa_compomente(falta_de_memoria_virtual, sistema_operacional).
-causa_compomente(software_incompativel, programa).
-causa_compomente(instalacao_incompleta_do_sistema, sistema_operacional).
-causa_compomente(registro_corrompido, registro_sistema).
+causa_componente(driver_incorreto, driver).
+causa_componente(virus_ou_malware, antivirus).
+causa_componente(atualizacao_mal_sucedida, sistema_operacional).
+causa_componente(arquivos_sistema_corrompidos, sistema_operacional).
+causa_componente(excesso_programas_inicializacao, programa).
+causa_componente(falta_de_memoria_virtual, sistema_operacional).
+causa_componente(software_incompativel, programa).
+causa_componente(instalacao_incompleta_do_sistema, sistema_operacional).
+causa_componente(registro_corrompido, registro_sistema).
 
 % --- Causas relacionadas a componentes de rede ---
-causa_compomente(modem_desconectado, modem).
-causa_compomente(roteador_com_defeito, roteador).
-causa_compomente(cabo_rede_danificado, cabo_rede).
-causa_compomente(dns_invalido, dns).
-causa_compomente(ip_conflitante, ip).
-causa_compomente(driver_rede_desatualizado, placa_de_rede).
-causa_compomente(configuracao_rede_incorreta, placa_de_rede).
-causa_compomente(interferencia_wifi, roteador).
-causa_compomente(problema_provedor_internet, modem). 
+causa_componente(modem_desconectado, modem).
+causa_componente(roteador_com_defeito, roteador).
+causa_componente(cabo_rede_danificado, cabo_rede).
+causa_componente(dns_invalido, dns).
+causa_componente(ip_conflitante, ip).
+causa_componente(driver_rede_desatualizado, placa_de_rede).
+causa_componente(configuracao_rede_incorreta, placa_de_rede).
+causa_componente(interferencia_wifi, roteador).
+causa_componente(problema_provedor_internet, modem).
+
 
 % --- Relações entre sintomas e causas de hardware ---
 problema(computador_nao_liga, fonte_queimada).
@@ -227,9 +262,11 @@ solucao(problema_provedor_internet, 'Entrar em contato com o provedor para verif
 %regra principal de diagnóstico
 diagnostico(Sintoma, Causa,Componente, Tipo, Solucao) :-
     problema(Sintoma, Causa),
-    solucao(Causa, Solucao),
+    causa_componente(Causa, Componente),
     tipo_causa(Causa, Tipo),
-    causa_compomente(Causa, Componente).
+    solucao(Causa, Solucao).
+    
+    
 
 % =================
 % MÓDULO DE STATUS 
