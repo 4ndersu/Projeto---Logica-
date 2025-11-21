@@ -198,32 +198,103 @@ causa_componente(problema_provedor_internet, modem).
 % --- Relações entre sintomas e causas de hardware ---
 problema(computador_nao_liga, fonte_queimada).
 problema(computador_nao_liga, cabo_energia_solto).
+problema(computador_nao_liga, placa_mae_defeituosa).
+
 problema(tela_preta_ao_iniciar, placa_mae_defeituosa).
+problema(tela_preta_ao_iniciar, placa_de_video_defeituosa).
+problema(tela_preta_ao_iniciar, memoria_ram_defeituosa).
+problema(tela_preta_ao_iniciar, driver_incorreto).
+
 problema(bips_na_inicializacao, memoria_ram_defeituosa).
+problema(bips_na_inicializacao, processador_superaquecendo).
+
 problema(reinicio_inesperado, processador_superaquecendo).
+problema(reinicio_inesperado, fonte_insuficiente).
+problema(reinicio_inesperado, memoria_ram_defeituosa).
+problema(reinicio_inesperado, driver_incorreto).
+problema(reinicio_inesperado, virus_ou_malware).
+
 problema(cheiro_de_queimado, fonte_queimada).
+problema(cheiro_de_queimado, placa_de_video_defeituosa).
+problema(cheiro_de_queimado, placa_mae_defeituosa).
+problema(cheiro_de_queimado, processador_superaquecendo).
+
 problema(barulhos_estranhos_hd, hd_com_setores_danificados).
+
 problema(travamento_aleatorio, memoria_ram_defeituosa).
+problema(travamento_aleatorio, hd_com_setores_danificados).
+problema(travamento_aleatorio, processador_superaquecendo).
+problema(travamento_aleatorio, driver_incorreto).
+
 problema(desempenho_lento_geral, hd_com_setores_danificados).
+problema(desempenho_lento_geral, memoria_ram_defeituosa).
+problema(desempenho_lento_geral, falta_de_memoria_virtual).
+problema(desempenho_lento_geral, excesso_programas_inicializacao).
+problema(desempenho_lento_geral, virus_ou_malware).
+problema(desempenho_lento_geral, processador_superaquecendo).
 
 % --- Relações entre sintomas e causas de software ---
 problema(tela_azul, driver_incorreto).
 problema(tela_azul, memoria_ram_defeituosa).
+problema(tela_azul, hd_com_setores_danificados).
+problema(tela_azul, registro_corrompido).
+problema(tela_azul, virus_ou_malware).
+problema(tela_azul, arquivos_sistema_corrompidos).
+
 problema(sistema_operacional_nao_inicia, arquivos_sistema_corrompidos).
+problema(sistema_operacional_nao_inicia, instalacao_incompleta_do_sistema).
+problema(sistema_operacional_nao_inicia, registro_corrompido).
+problema(sistema_operacional_nao_inicia, driver_incorreto).
+problema(sistema_operacional_nao_inicia, atualizacao_mal_sucedida).
+
+
 problema(popups_constantes, virus_ou_malware).
+problema(popups_constantes, registro_corrompido).
+problema(popups_constantes, excesso_programas_inicializacao).
+
 problema(lentidao_ao_abrir_programas, excesso_programas_inicializacao).
+problema(lentidao_ao_abrir_programas, falta_de_memoria_virtual).
+problema(lentidao_ao_abrir_programas, hd_com_setores_danificados).
+problema(lentidao_ao_abrir_programas, virus_ou_malware).
+
+
+problema(programas_fecham_sozinhos, memoria_ram_defeituosa).
+problema(programas_fecham_sozinhos, driver_incorreto).
 problema(programas_fecham_sozinhos, software_incompativel).
+problema(programas_fecham_sozinhos, arquivos_sistema_corrompidos).
+problema(programas_fecham_sozinhos, registro_corrompido).
+
 problema(erro_ao_instalar_programas, falta_de_memoria_virtual).
+problema(erro_ao_instalar_programas, software_incompativel).
+problema(erro_ao_instalar_programas, instalacao_incompleta_do_sistema).
+problema(erro_ao_instalar_programas, arquivos_sistema_corrompidos).
+problema(erro_ao_instalar_programas, registro_corrompido).
+
 problema(sistema_reinicia_apos_atualizacao, atualizacao_mal_sucedida).
+problema(sistema_reinicia_apos_atualizacao, driver_incorreto).
+problema(sistema_reinicia_apos_atualizacao, arquivos_sistema_corrompidos).
+problema(sistema_reinicia_apos_atualizacao, registro_corrompido).
 
 % --- Relações entre sintomas e causas de rede ---
 problema(sem_conexao_internet, modem_desconectado).
+problema(sem_conexao_internet, cabo_rede_danificado).
+problema(sem_conexao_internet, driver_rede_desatualizado).
+problema(sem_conexao_internet, configuracao_rede_incorreta).
+problema(sem_conexao_internet, problema_provedor_internet).
+
 problema(conexao_lenta, problema_provedor_internet).
+problema(conexao_lenta, interferencia_wifi).
+problema(conexao_lenta, configuracao_rede_incorreta).
+
 problema(erro_dns, dns_invalido).
+problema(erro_dns, problema_provedor_internet).
+
 problema(desconexao_frequente, roteador_com_defeito).
+problema(desconexao_frequente, driver_rede_desatualizado).
+problema(desconexao_frequente, interferencia_wifi
+    ).
 problema(rede_nao_identificada, configuracao_rede_incorreta).
 problema(wifi_desconecta_sozinha, interferencia_wifi).
-
 
 % --- Soluções de Hardware ---
 solucao(fonte_queimada, 'Substituir a fonte de alimentacao por uma nova compativel.').
@@ -260,9 +331,12 @@ solucao(interferencia_wifi, 'Mudar o canal Wi-Fi do roteador ou aproximar o disp
 solucao(problema_provedor_internet, 'Entrar em contato com o provedor para verificar a linha.').
 
 %regra principal de diagnóstico
-diagnostico(Sintoma, Causa,Componente, Tipo, Solucao) :-
+diagnostico(Sintoma, Causa,Componente, Tipo, Solucao, Gravidade) :-
     problema(Sintoma, Causa),
     causa_componente(Causa, Componente),
     tipo_causa(Causa, Tipo),
-    solucao(Causa, Solucao).
+    solucao(Causa, Solucao),
+    gravidade(Causa, Gravidade).
     
+causas_do_sintoma(Sintoma, Lista) :-
+    findall(Causa, problema(Sintoma, Causa), Lista).
