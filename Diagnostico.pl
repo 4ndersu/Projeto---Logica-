@@ -101,41 +101,6 @@ gravidade(configuracao_rede_incorreta, media).
 gravidade(interferencia_wifi, baixa).
 gravidade(problema_provedor_internet, alta).
 
-
-% --- Probabilidade Hardware ---
-probabilidade(fonte_queimada, media).
-probabilidade(memoria_ram_defeituosa, media).
-probabilidade(hd_com_setores_danificados, media).
-probabilidade(placa_mae_defeituosa, baixa).
-probabilidade(processador_superaquecendo, media).
-probabilidade(cabo_energia_solto, alta).
-probabilidade(placa_de_video_defeituosa, media).
-probabilidade(fonte_insuficiente, baixa).
-probabilidade(cooler_parado, media).
-probabilidade(bateria_cmos_fraca, baixa).
-
-% --- Probabilidade Software ---
-probabilidade(driver_incorreto, alta).
-probabilidade(virus_ou_malware, alta).
-probabilidade(atualizacao_mal_sucedida, media).
-probabilidade(arquivos_sistema_corrompidos, media).
-probabilidade(excesso_programas_inicializacao, alta).
-probabilidade(falta_de_memoria_virtual, media).
-probabilidade(software_incompativel, baixa).
-probabilidade(instalacao_incompleta_do_sistema, baixa).
-probabilidade(registro_corrompido, baixa).
-
-% --- Probabilidade Rede ---
-probabilidade(modem_desconectado, alta).
-probabilidade(roteador_com_defeito, media).
-probabilidade(cabo_rede_danificado, media).
-probabilidade(dns_invalido, media).
-probabilidade(ip_conflitante, media).
-probabilidade(driver_rede_desatualizado, alta).
-probabilidade(configuracao_rede_incorreta, media).
-probabilidade(interferencia_wifi, alta).
-probabilidade(problema_provedor_internet, media).
-
 % --- Componentes de hardware ---
 componente(fonte).
 componente(placa_mae).
@@ -229,106 +194,106 @@ causa_componente(configuracao_rede_incorreta, placa_de_rede).
 causa_componente(interferencia_wifi, roteador).
 causa_componente(problema_provedor_internet, modem).
 
+% --- Relações entre sintomas e causas de hardware com probabilidade ---
+problema(computador_nao_liga, fonte_queimada, muito_provavel).
+problema(computador_nao_liga, cabo_energia_solto, provavel).
+problema(computador_nao_liga, placa_mae_defeituosa, pouco_provavel).
 
-% --- Relações entre sintomas e causas de hardware ---
-problema(computador_nao_liga, fonte_queimada).
-problema(computador_nao_liga, cabo_energia_solto).
-problema(computador_nao_liga, placa_mae_defeituosa).
+problema(tela_preta_ao_iniciar, placa_mae_defeituosa, provavel).
+problema(tela_preta_ao_iniciar, placa_de_video_defeituosa, muito_provavel).
+problema(tela_preta_ao_iniciar, memoria_ram_defeituosa, provavel).
+problema(tela_preta_ao_iniciar, driver_incorreto, pouco_provavel).
 
-problema(tela_preta_ao_iniciar, placa_mae_defeituosa).
-problema(tela_preta_ao_iniciar, placa_de_video_defeituosa).
-problema(tela_preta_ao_iniciar, memoria_ram_defeituosa).
-problema(tela_preta_ao_iniciar, driver_incorreto).
+problema(bips_na_inicializacao, memoria_ram_defeituosa, muito_provavel).
+problema(bips_na_inicializacao, processador_superaquecendo, provavel).
 
-problema(bips_na_inicializacao, memoria_ram_defeituosa).
-problema(bips_na_inicializacao, processador_superaquecendo).
+problema(reinicio_inesperado, processador_superaquecendo, muito_provavel).
+problema(reinicio_inesperado, fonte_insuficiente, provavel).
+problema(reinicio_inesperado, memoria_ram_defeituosa, provavel).
+problema(reinicio_inesperado, driver_incorreto, pouco_provavel).
+problema(reinicio_inesperado, virus_ou_malware, pouco_provavel).
 
-problema(reinicio_inesperado, processador_superaquecendo).
-problema(reinicio_inesperado, fonte_insuficiente).
-problema(reinicio_inesperado, memoria_ram_defeituosa).
-problema(reinicio_inesperado, driver_incorreto).
-problema(reinicio_inesperado, virus_ou_malware).
+problema(cheiro_de_queimado, fonte_queimada, muito_provavel).
+problema(cheiro_de_queimado, placa_de_video_defeituosa, provavel).
+problema(cheiro_de_queimado, placa_mae_defeituosa, provavel).
+problema(cheiro_de_queimado, processador_superaquecendo, pouco_provavel).
 
-problema(cheiro_de_queimado, fonte_queimada).
-problema(cheiro_de_queimado, placa_de_video_defeituosa).
-problema(cheiro_de_queimado, placa_mae_defeituosa).
-problema(cheiro_de_queimado, processador_superaquecendo).
+problema(barulhos_estranhos_hd, hd_com_setores_danificados, muito_provavel).
 
-problema(barulhos_estranhos_hd, hd_com_setores_danificados).
+problema(travamento_aleatorio, memoria_ram_defeituosa, muito_provavel).
+problema(travamento_aleatorio, hd_com_setores_danificados, provavel).
+problema(travamento_aleatorio, processador_superaquecendo, provavel).
+problema(travamento_aleatorio, driver_incorreto, pouco_provavel).
 
-problema(travamento_aleatorio, memoria_ram_defeituosa).
-problema(travamento_aleatorio, hd_com_setores_danificados).
-problema(travamento_aleatorio, processador_superaquecendo).
-problema(travamento_aleatorio, driver_incorreto).
-
-problema(desempenho_lento_geral, hd_com_setores_danificados).
-problema(desempenho_lento_geral, memoria_ram_defeituosa).
-problema(desempenho_lento_geral, falta_de_memoria_virtual).
-problema(desempenho_lento_geral, excesso_programas_inicializacao).
-problema(desempenho_lento_geral, virus_ou_malware).
-problema(desempenho_lento_geral, processador_superaquecendo).
-
+problema(desempenho_lento_geral, hd_com_setores_danificados, muito_provavel).
+problema(desempenho_lento_geral, memoria_ram_defeituosa, provavel).
+problema(desempenho_lento_geral, falta_de_memoria_virtual, muito_provavel).
+problema(desempenho_lento_geral, excesso_programas_inicializacao, provavel).
+problema(desempenho_lento_geral, virus_ou_malware, provavel).
+problema(desempenho_lento_geral, processador_superaquecendo, pouco_provavel).
 % --- Relações entre sintomas e causas de software ---
-problema(tela_azul, driver_incorreto).
-problema(tela_azul, memoria_ram_defeituosa).
-problema(tela_azul, hd_com_setores_danificados).
-problema(tela_azul, registro_corrompido).
-problema(tela_azul, virus_ou_malware).
-problema(tela_azul, arquivos_sistema_corrompidos).
 
-problema(sistema_operacional_nao_inicia, arquivos_sistema_corrompidos).
-problema(sistema_operacional_nao_inicia, instalacao_incompleta_do_sistema).
-problema(sistema_operacional_nao_inicia, registro_corrompido).
-problema(sistema_operacional_nao_inicia, driver_incorreto).
-problema(sistema_operacional_nao_inicia, atualizacao_mal_sucedida).
+problema(tela_azul, driver_incorreto, muito_provavel).
+problema(tela_azul, memoria_ram_defeituosa, provavel).
+problema(tela_azul, hd_com_setores_danificados, provavel).
+problema(tela_azul, registro_corrompido, provavel).
+problema(tela_azul, virus_ou_malware, pouco_provavel).
+problema(tela_azul, arquivos_sistema_corrompidos, muito_provavel).
 
+problema(sistema_operacional_nao_inicia, arquivos_sistema_corrompidos, muito_provavel).
+problema(sistema_operacional_nao_inicia, instalacao_incompleta_do_sistema, provavel).
+problema(sistema_operacional_nao_inicia, registro_corrompido, provavel).
+problema(sistema_operacional_nao_inicia, driver_incorreto, pouco_provavel).
+problema(sistema_operacional_nao_inicia, atualizacao_mal_sucedida, muito_provavel).
 
-problema(popups_constantes, virus_ou_malware).
-problema(popups_constantes, registro_corrompido).
-problema(popups_constantes, excesso_programas_inicializacao).
+problema(popups_constantes, virus_ou_malware, muito_provavel).
+problema(popups_constantes, registro_corrompido, provavel).
+problema(popups_constantes, excesso_programas_inicializacao, pouco_provavel).
 
-problema(lentidao_ao_abrir_programas, excesso_programas_inicializacao).
-problema(lentidao_ao_abrir_programas, falta_de_memoria_virtual).
-problema(lentidao_ao_abrir_programas, hd_com_setores_danificados).
-problema(lentidao_ao_abrir_programas, virus_ou_malware).
+problema(lentidao_ao_abrir_programas, excesso_programas_inicializacao, muito_provavel).
+problema(lentidao_ao_abrir_programas, falta_de_memoria_virtual, muito_provavel).
+problema(lentidao_ao_abrir_programas, hd_com_setores_danificados, provavel).
+problema(lentidao_ao_abrir_programas, virus_ou_malware, provavel).
 
+problema(programas_fecham_sozinhos, memoria_ram_defeituosa, provavel).
+problema(programas_fecham_sozinhos, driver_incorreto, provavel).
+problema(programas_fecham_sozinhos, software_incompativel, muito_provavel).
+problema(programas_fecham_sozinhos, arquivos_sistema_corrompidos, muito_provavel).
+problema(programas_fecham_sozinhos, registro_corrompido, provavel).
 
-problema(programas_fecham_sozinhos, memoria_ram_defeituosa).
-problema(programas_fecham_sozinhos, driver_incorreto).
-problema(programas_fecham_sozinhos, software_incompativel).
-problema(programas_fecham_sozinhos, arquivos_sistema_corrompidos).
-problema(programas_fecham_sozinhos, registro_corrompido).
+problema(erro_ao_instalar_programas, falta_de_memoria_virtual, provavel).
+problema(erro_ao_instalar_programas, software_incompativel, muito_provavel).
+problema(erro_ao_instalar_programas, instalacao_incompleta_do_sistema, provavel).
+problema(erro_ao_instalar_programas, arquivos_sistema_corrompidos, muito_provavel).
+problema(erro_ao_instalar_programas, registro_corrompido, pouco_provavel).
 
-problema(erro_ao_instalar_programas, falta_de_memoria_virtual).
-problema(erro_ao_instalar_programas, software_incompativel).
-problema(erro_ao_instalar_programas, instalacao_incompleta_do_sistema).
-problema(erro_ao_instalar_programas, arquivos_sistema_corrompidos).
-problema(erro_ao_instalar_programas, registro_corrompido).
-
-problema(sistema_reinicia_apos_atualizacao, atualizacao_mal_sucedida).
-problema(sistema_reinicia_apos_atualizacao, driver_incorreto).
-problema(sistema_reinicia_apos_atualizacao, arquivos_sistema_corrompidos).
-problema(sistema_reinicia_apos_atualizacao, registro_corrompido).
+problema(sistema_reinicia_apos_atualizacao, atualizacao_mal_sucedida, muito_provavel).
+problema(sistema_reinicia_apos_atualizacao, driver_incorreto, provavel).
+problema(sistema_reinicia_apos_atualizacao, arquivos_sistema_corrompidos, muito_provavel).
+problema(sistema_reinicia_apos_atualizacao, registro_corrompido, provavel).
 
 % --- Relações entre sintomas e causas de rede ---
-problema(sem_conexao_internet, modem_desconectado).
-problema(sem_conexao_internet, cabo_rede_danificado).
-problema(sem_conexao_internet, driver_rede_desatualizado).
-problema(sem_conexao_internet, configuracao_rede_incorreta).
-problema(sem_conexao_internet, problema_provedor_internet).
 
-problema(conexao_lenta, problema_provedor_internet).
-problema(conexao_lenta, interferencia_wifi).
-problema(conexao_lenta, configuracao_rede_incorreta).
+problema(sem_conexao_internet, modem_desconectado, muito_provavel).
+problema(sem_conexao_internet, cabo_rede_danificado, provavel).
+problema(sem_conexao_internet, driver_rede_desatualizado, provavel).
+problema(sem_conexao_internet, configuracao_rede_incorreta, muito_provavel).
+problema(sem_conexao_internet, problema_provedor_internet, muito_provavel).
 
-problema(erro_dns, dns_invalido).
-problema(erro_dns, problema_provedor_internet).
+problema(conexao_lenta, problema_provedor_internet, muito_provavel).
+problema(conexao_lenta, interferencia_wifi, muito_provavel).
+problema(conexao_lenta, configuracao_rede_incorreta, provavel).
 
-problema(desconexao_frequente, roteador_com_defeito).
-problema(desconexao_frequente, driver_rede_desatualizado).
-problema(desconexao_frequente, interferencia_wifi).
-problema(rede_nao_identificada, configuracao_rede_incorreta).
-problema(wifi_desconecta_sozinha, interferencia_wifi).
+problema(erro_dns, dns_invalido, muito_provavel).
+problema(erro_dns, problema_provedor_internet, provavel).
+
+problema(desconexao_frequente, roteador_com_defeito, provavel).
+problema(desconexao_frequente, driver_rede_desatualizado, provavel).
+problema(desconexao_frequente, interferencia_wifi, muito_provavel).
+
+problema(rede_nao_identificada, configuracao_rede_incorreta, muito_provavel).
+
+problema(wifi_desconecta_sozinha, interferencia_wifi, muito_provavel).
 
 % --- Soluções de Hardware ---
 solucao(fonte_queimada, 'Substituir a fonte de alimentacao por uma nova compativel.').
@@ -366,13 +331,10 @@ solucao(problema_provedor_internet, 'Entrar em contato com o provedor para verif
 
 
 %regra principal de diagnóstico
-diagnostico_completo(Sintoma, Causa, Componente, Tipo, Solucao, Gravidade, Probabilidade) :-
-    problema(Sintoma, Causa),
+diagnostico(Sintoma, Causa, Componente, Tipo, Solucao, Gravidade, Probabilidade) :-
+    problema(Sintoma, Causa, Probabilidade),
     causa_componente(Causa, Componente),
     tipo_causa(Causa, Tipo),
     solucao(Causa, Solucao),
-    gravidade(Causa, Gravidade),
-    probabilidade(Causa, Probabilidade).
-    
-causas_do_sintoma(Sintoma, Lista) :-
-    findall(Causa, problema(Sintoma, Causa), Lista).
+    gravidade(Causa, Gravidade).
+
