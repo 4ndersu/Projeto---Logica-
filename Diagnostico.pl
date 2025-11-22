@@ -295,6 +295,11 @@ problema(rede_nao_identificada, configuracao_rede_incorreta, muito_provavel).
 
 problema(wifi_desconecta_sozinha, interferencia_wifi, muito_provavel).
 
+% --- Pesos de Probabilidade ---
+peso_probabilidade(muito_provavel, 3).
+peso_probabilidade(provavel, 2).
+peso_probabilidade(pouco_provavel, 1).
+
 % --- Soluções de Hardware ---
 solucao(fonte_queimada, 'Substituir a fonte de alimentacao por uma nova compativel.').
 solucao(cabo_energia_solto, 'Verificar e reconectar firmemente o cabo de energia.').
@@ -337,4 +342,12 @@ diagnostico(Sintoma, Causa, Componente, Tipo, Solucao, Gravidade, Probabilidade)
     tipo_causa(Causa, Tipo),
     solucao(Causa, Solucao),
     gravidade(Causa, Gravidade).
+
+%regra para listar cauas possiveis de um sintoma
+causas_possiveis(Sintoma, Lista) :-
+    findall(Causa, problema(Sintoma, Causa, _), Lista).
+
+%regra para listar sintomas possiveis de um causa
+sintomas_possiveis(Causa, Lista) :-
+    findall(Sintoma, problema(Sintoma, Causa, _), Lista).
 
