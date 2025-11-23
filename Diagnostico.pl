@@ -101,6 +101,11 @@ gravidade(configuracao_rede_incorreta, media).
 gravidade(interferencia_wifi, baixa).
 gravidade(problema_provedor_internet, alta).
 
+% --- Pesos de Probabilidade ---
+peso_gravidade(alta, 3).
+peso_gravidade(media, 2).
+peso_gravidade(baixa, 1).
+
 % --- Componentes de hardware ---
 componente(fonte).
 componente(placa_mae).
@@ -333,7 +338,6 @@ solucao(configuracao_rede_incorreta, 'Executar a Solucao de Problemas de Rede ou
 solucao(interferencia_wifi, 'Mudar o canal Wi-Fi do roteador ou aproximar o dispositivo.').
 solucao(problema_provedor_internet, 'Entrar em contato com o provedor para verificar a linha.').
 
-
 %regra principal de diagnóstico
 diagnostico(Sintoma, Causa, Componente, Tipo, Solucao, Gravidade, Probabilidade) :-
     problema(Sintoma, Causa, Probabilidade),
@@ -351,12 +355,29 @@ sintomas_possiveis(Causa, Lista) :-
     findall(Sintoma, problema(Sintoma, Causa, _), Lista).
 
 %regra para obter peso de probabilidade de uma causa para um sintoma
-problema_com_peso(Sintoma, Causa, Peso) :-
+problema_com_peso_prob(Sintoma, Causa, Peso) :-
     problema(Sintoma, Causa, Probabilidade),
     peso_probabilidade(Probabilidade, Peso).
 
+%regra para obter peso da gravidade de uma causa
+peso_da_gravidade(Causa, Peso) :-
+    gravidade(Causa, Nivel),
+    peso_gravidade(Nivel, Peso).
+
 %regra para ordenar causas por peso de probabilidade em ordem decrescente(da mais provavel para a menos provavel)
-ordenar_problemas(Sintoma, ListaOrdenada) :-
-    findall((Causa, Peso), problema_com_peso(Sintoma, Causa, Peso), Lista),
+ordenar_problemas_provaveis(Sintoma, ListaOrdenada) :-
+    findall((Causa, Peso), problema_com_peso_prob(Sintoma, Causa, Peso), Lista),
+    sort(2, @>=, Lista, ListaOrdenada).
+
+%regra para listar causas com seus pesos de gravidade
+listar_gravidades(Sintoma, Lista) :-
+    findall((Causa, Peso),
+            (problema(Sintoma, Causa, _),  % aqui não importa probabilidade
+             peso_da_gravidade(Causa, Peso)),
+            Lista).
+
+%regra para ordenar causas por gravidade em ordem decrescente(da mais grave para a menos grave)
+ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
+    listar_gravidades(Sintoma, Lista),
     sort(2, @>=, Lista, ListaOrdenada).
 
