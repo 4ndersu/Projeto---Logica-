@@ -195,101 +195,100 @@ causa_componente(interferencia_wifi, roteador).
 causa_componente(problema_provedor_internet, modem).
 
 % --- Relações entre sintomas e causas de hardware com probabilidade ---
+problema(computador_nao_liga, placa_mae_defeituosa, pouco_provavel).
 problema(computador_nao_liga, fonte_queimada, muito_provavel).
 problema(computador_nao_liga, cabo_energia_solto, provavel).
-problema(computador_nao_liga, placa_mae_defeituosa, pouco_provavel).
 
+problema(tela_preta_ao_iniciar, driver_incorreto, pouco_provavel).
 problema(tela_preta_ao_iniciar, placa_mae_defeituosa, provavel).
 problema(tela_preta_ao_iniciar, placa_de_video_defeituosa, muito_provavel).
 problema(tela_preta_ao_iniciar, memoria_ram_defeituosa, provavel).
-problema(tela_preta_ao_iniciar, driver_incorreto, pouco_provavel).
 
 problema(bips_na_inicializacao, memoria_ram_defeituosa, muito_provavel).
 problema(bips_na_inicializacao, processador_superaquecendo, provavel).
 
-problema(reinicio_inesperado, processador_superaquecendo, muito_provavel).
-problema(reinicio_inesperado, fonte_insuficiente, provavel).
-problema(reinicio_inesperado, memoria_ram_defeituosa, provavel).
-problema(reinicio_inesperado, driver_incorreto, pouco_provavel).
 problema(reinicio_inesperado, virus_ou_malware, pouco_provavel).
+problema(reinicio_inesperado, memoria_ram_defeituosa, provavel).
+problema(reinicio_inesperado, fonte_insuficiente, provavel).
+problema(reinicio_inesperado, processador_superaquecendo, muito_provavel).
+problema(reinicio_inesperado, driver_incorreto, pouco_provavel).
 
-problema(cheiro_de_queimado, fonte_queimada, muito_provavel).
-problema(cheiro_de_queimado, placa_de_video_defeituosa, provavel).
 problema(cheiro_de_queimado, placa_mae_defeituosa, provavel).
+problema(cheiro_de_queimado, fonte_queimada, muito_provavel).
 problema(cheiro_de_queimado, processador_superaquecendo, pouco_provavel).
+problema(cheiro_de_queimado, placa_de_video_defeituosa, provavel).
 
 problema(barulhos_estranhos_hd, hd_com_setores_danificados, muito_provavel).
 
+problema(travamento_aleatorio, driver_incorreto, pouco_provavel).
+problema(travamento_aleatorio, processador_superaquecendo, provavel).
 problema(travamento_aleatorio, memoria_ram_defeituosa, muito_provavel).
 problema(travamento_aleatorio, hd_com_setores_danificados, provavel).
-problema(travamento_aleatorio, processador_superaquecendo, provavel).
-problema(travamento_aleatorio, driver_incorreto, pouco_provavel).
 
-problema(desempenho_lento_geral, hd_com_setores_danificados, muito_provavel).
 problema(desempenho_lento_geral, memoria_ram_defeituosa, provavel).
-problema(desempenho_lento_geral, falta_de_memoria_virtual, muito_provavel).
-problema(desempenho_lento_geral, excesso_programas_inicializacao, provavel).
 problema(desempenho_lento_geral, virus_ou_malware, provavel).
+problema(desempenho_lento_geral, excesso_programas_inicializacao, provavel).
 problema(desempenho_lento_geral, processador_superaquecendo, pouco_provavel).
-% --- Relações entre sintomas e causas de software ---
+problema(desempenho_lento_geral, hd_com_setores_danificados, muito_provavel).
+problema(desempenho_lento_geral, falta_de_memoria_virtual, muito_provavel).
 
-problema(tela_azul, driver_incorreto, muito_provavel).
-problema(tela_azul, memoria_ram_defeituosa, provavel).
-problema(tela_azul, hd_com_setores_danificados, provavel).
-problema(tela_azul, registro_corrompido, provavel).
+% --- Relações entre sintomas e causas de software ---
 problema(tela_azul, virus_ou_malware, pouco_provavel).
+problema(tela_azul, memoria_ram_defeituosa, provavel).
+problema(tela_azul, registro_corrompido, provavel).
+problema(tela_azul, driver_incorreto, muito_provavel).
+problema(tela_azul, hd_com_setores_danificados, provavel).
 problema(tela_azul, arquivos_sistema_corrompidos, muito_provavel).
 
-problema(sistema_operacional_nao_inicia, arquivos_sistema_corrompidos, muito_provavel).
+problema(sistema_operacional_nao_inicia, driver_incorreto, pouco_provavel).
 problema(sistema_operacional_nao_inicia, instalacao_incompleta_do_sistema, provavel).
 problema(sistema_operacional_nao_inicia, registro_corrompido, provavel).
-problema(sistema_operacional_nao_inicia, driver_incorreto, pouco_provavel).
+problema(sistema_operacional_nao_inicia, arquivos_sistema_corrompidos, muito_provavel).
 problema(sistema_operacional_nao_inicia, atualizacao_mal_sucedida, muito_provavel).
 
-problema(popups_constantes, virus_ou_malware, muito_provavel).
-problema(popups_constantes, registro_corrompido, provavel).
 problema(popups_constantes, excesso_programas_inicializacao, pouco_provavel).
+problema(popups_constantes, registro_corrompido, provavel).
+problema(popups_constantes, virus_ou_malware, muito_provavel).
 
-problema(lentidao_ao_abrir_programas, excesso_programas_inicializacao, muito_provavel).
-problema(lentidao_ao_abrir_programas, falta_de_memoria_virtual, muito_provavel).
-problema(lentidao_ao_abrir_programas, hd_com_setores_danificados, provavel).
 problema(lentidao_ao_abrir_programas, virus_ou_malware, provavel).
+problema(lentidao_ao_abrir_programas, excesso_programas_inicializacao, muito_provavel).
+problema(lentidao_ao_abrir_programas, hd_com_setores_danificados, provavel).
+problema(lentidao_ao_abrir_programas, falta_de_memoria_virtual, muito_provavel).
 
-problema(programas_fecham_sozinhos, memoria_ram_defeituosa, provavel).
 problema(programas_fecham_sozinhos, driver_incorreto, provavel).
-problema(programas_fecham_sozinhos, software_incompativel, muito_provavel).
 problema(programas_fecham_sozinhos, arquivos_sistema_corrompidos, muito_provavel).
+problema(programas_fecham_sozinhos, software_incompativel, muito_provavel).
 problema(programas_fecham_sozinhos, registro_corrompido, provavel).
+problema(programas_fecham_sozinhos, memoria_ram_defeituosa, provavel).
 
 problema(erro_ao_instalar_programas, falta_de_memoria_virtual, provavel).
-problema(erro_ao_instalar_programas, software_incompativel, muito_provavel).
+problema(erro_ao_instalar_programas, registro_corrompido, pouco_provavel).
 problema(erro_ao_instalar_programas, instalacao_incompleta_do_sistema, provavel).
 problema(erro_ao_instalar_programas, arquivos_sistema_corrompidos, muito_provavel).
-problema(erro_ao_instalar_programas, registro_corrompido, pouco_provavel).
+problema(erro_ao_instalar_programas, software_incompativel, muito_provavel).
 
-problema(sistema_reinicia_apos_atualizacao, atualizacao_mal_sucedida, muito_provavel).
+problema(sistema_reinicia_apos_atualizacao, registro_corrompido, provavel).
 problema(sistema_reinicia_apos_atualizacao, driver_incorreto, provavel).
 problema(sistema_reinicia_apos_atualizacao, arquivos_sistema_corrompidos, muito_provavel).
-problema(sistema_reinicia_apos_atualizacao, registro_corrompido, provavel).
+problema(sistema_reinicia_apos_atualizacao, atualizacao_mal_sucedida, muito_provavel).
 
 % --- Relações entre sintomas e causas de rede ---
-
-problema(sem_conexao_internet, modem_desconectado, muito_provavel).
-problema(sem_conexao_internet, cabo_rede_danificado, provavel).
-problema(sem_conexao_internet, driver_rede_desatualizado, provavel).
-problema(sem_conexao_internet, configuracao_rede_incorreta, muito_provavel).
 problema(sem_conexao_internet, problema_provedor_internet, muito_provavel).
+problema(sem_conexao_internet, cabo_rede_danificado, provavel).
+problema(sem_conexao_internet, modem_desconectado, muito_provavel).
+problema(sem_conexao_internet, configuracao_rede_incorreta, muito_provavel).
+problema(sem_conexao_internet, driver_rede_desatualizado, provavel).
 
 problema(conexao_lenta, problema_provedor_internet, muito_provavel).
-problema(conexao_lenta, interferencia_wifi, muito_provavel).
 problema(conexao_lenta, configuracao_rede_incorreta, provavel).
+problema(conexao_lenta, interferencia_wifi, muito_provavel).
 
-problema(erro_dns, dns_invalido, muito_provavel).
 problema(erro_dns, problema_provedor_internet, provavel).
+problema(erro_dns, dns_invalido, muito_provavel).
 
-problema(desconexao_frequente, roteador_com_defeito, provavel).
 problema(desconexao_frequente, driver_rede_desatualizado, provavel).
 problema(desconexao_frequente, interferencia_wifi, muito_provavel).
+problema(desconexao_frequente, roteador_com_defeito, provavel).
 
 problema(rede_nao_identificada, configuracao_rede_incorreta, muito_provavel).
 
@@ -350,4 +349,14 @@ causas_possiveis(Sintoma, Lista) :-
 %regra para listar sintomas possiveis de um causa
 sintomas_possiveis(Causa, Lista) :-
     findall(Sintoma, problema(Sintoma, Causa, _), Lista).
+
+%regra para obter peso de probabilidade de uma causa para um sintoma
+problema_com_peso(Sintoma, Causa, Peso) :-
+    problema(Sintoma, Causa, Probabilidade),
+    peso_probabilidade(Probabilidade, Peso).
+
+%regra para ordenar causas por peso de probabilidade em ordem decrescente(da mais provavel para a menos provavel)
+ordenar_problemas(Sintoma, ListaOrdenada) :-
+    findall((Causa, Peso), problema_com_peso(Sintoma, Causa, Peso), Lista),
+    sort(2, @>=, Lista, ListaOrdenada).
 
