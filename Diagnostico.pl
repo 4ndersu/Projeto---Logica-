@@ -381,11 +381,11 @@ ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
     listar_gravidades(Sintoma, Lista),
     sort(2, @>=, Lista, ListaOrdenada).
 
-
 % ==========================
 % DIAGNOSTICO INTERATIVO
 % ==========================
 
+% Pergunta ao usuario sobre cada sintoma
 perguntar(Sintoma, Resposta) :-
     format("O computador apresenta ~w? (s/n ou outra tecla para parar): ", [Sintoma]),
     read(Resp),
@@ -393,6 +393,7 @@ perguntar(Sintoma, Resposta) :-
      Resp == n -> Resposta = n ;
      Resposta = parar).
 
+% Coleta sintomas confirmados pelo usuario
 coletar_sintomas(Acumulado, Final) :-
     sintoma(S),
     \+ member(S, Acumulado),
@@ -411,28 +412,12 @@ coletar_sintomas(Acumulado, Final) :-
 % quando acabar os sintomas, retorna lista
 coletar_sintomas(Final, Final).
 
-coletar_sintomas(Acumulado, Final) :-
-    sintoma(S),
-    \+ member(S, Acumulado),
-    perguntar(S, Resp),
-
-    ( Resp == parar ->
-        Final = Acumulado ;
-
-      Resp == s ->
-        coletar_sintomas([S|Acumulado], Final) ;
-
-      Resp == n ->
-        coletar_sintomas(Acumulado, Final)
-    ).
-
-% quando acabar os sintomas, retorna lista
-coletar_sintomas(Final, Final).
-
+% Diagnostica um sintoma e exibe as causas possíveis
 diagnosticar_sintoma(S) :-
     format("\nSintoma: ~w\n", [S]),
     listar_causas(S).
 
+% Lista causas possíveis com detalhes
 listar_causas(S) :-
     problema(S, Causa, Probabilidade),
     causa_componente(Causa, Componente),
@@ -449,13 +434,15 @@ listar_causas(S) :-
 
     fail.  % → força encontrar próxima causa no backtracking
 
-listar_causas(_).  % → quando acabar as causas, finaliza suavemente
+listar_causas(_).  % → quando acabar as causas, finaliza 
 
+% Diagnostica uma lista de sintomas
 diagnosticar_lista([]).
 diagnosticar_lista([S|R]) :-
     diagnosticar_sintoma(S),
     diagnosticar_lista(R).
 
+% Inicia o diagnóstico interativo
 iniciar :-
     write("===== Iniciando diagnóstico =====\n"),
     coletar_sintomas([], Lista),
