@@ -101,7 +101,7 @@ gravidade(configuracao_rede_incorreta, media).
 gravidade(interferencia_wifi, baixa).
 gravidade(problema_provedor_internet, alta).
 
-% --- Pesos de Probabilidade ---
+% --- Pesos de gravidade(causas) ---
 peso_gravidade(alta, 3).
 peso_gravidade(media, 2).
 peso_gravidade(baixa, 1).
@@ -380,4 +380,90 @@ listar_gravidades(Sintoma, Lista) :-
 ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
     listar_gravidades(Sintoma, Lista),
     sort(2, @>=, Lista, ListaOrdenada).
+
+
+% ==========================
+% DIAGNOSTICO INTERATIVO
+% ==========================
+
+perguntar(Sintoma, Resposta) :-
+    format("O computador apresenta ~w? (s/n ou outra tecla para parar): ", [Sintoma]),
+    read(Resp),
+    (Resp == s -> Resposta = s ;
+     Resp == n -> Resposta = n ;
+     Resposta = parar).
+
+coletar_sintomas(Acumulado, Final) :-
+    sintoma(S),
+    \+ member(S, Acumulado),
+    perguntar(S, Resp),
+
+    ( Resp == parar ->
+        Final = Acumulado ;
+
+      Resp == s ->
+        coletar_sintomas([S|Acumulado], Final) ;
+
+      Resp == n ->
+        coletar_sintomas(Acumulado, Final)
+    ).
+
+% quando acabar os sintomas, retorna lista
+coletar_sintomas(Final, Final).
+
+coletar_sintomas(Acumulado, Final) :-
+    sintoma(S),
+    \+ member(S, Acumulado),
+    perguntar(S, Resp),
+
+    ( Resp == parar ->
+        Final = Acumulado ;
+
+      Resp == s ->
+        coletar_sintomas([S|Acumulado], Final) ;
+
+      Resp == n ->
+        coletar_sintomas(Acumulado, Final)
+    ).
+
+% quando acabar os sintomas, retorna lista
+coletar_sintomas(Final, Final).
+
+diagnosticar_sintoma(S) :-
+    format("\nSintoma: ~w\n", [S]),
+    listar_causas(S).
+
+listar_causas(S) :-
+    problema(S, Causa, Probabilidade),
+    causa_componente(Causa, Componente),
+    tipo_causa(Causa, Tipo),
+    solucao(Causa, Solucao),
+    gravidade(Causa, Gravidade),
+
+    format("  - Causa: ~w\n", [Causa]),
+    format("      Componente: ~w\n", [Componente]),
+    format("      Tipo: ~w\n", [Tipo]),
+    format("      Gravidade: ~w\n", [Gravidade]),
+    format("      Probabilidade: ~w\n", [Probabilidade]),
+    format("      Solução: ~w\n\n", [Solucao]),
+
+    fail.  % → força encontrar próxima causa no backtracking
+
+listar_causas(_).  % → quando acabar as causas, finaliza suavemente
+
+diagnosticar_lista([]).
+diagnosticar_lista([S|R]) :-
+    diagnosticar_sintoma(S),
+    diagnosticar_lista(R).
+
+iniciar :-
+    write("===== Iniciando diagnóstico =====\n"),
+    coletar_sintomas([], Lista),
+
+    ( Lista == [] ->
+        write("\nNenhum sintoma confirmado. Encerrando.\n")
+    ;
+        write("\n==== RESULTADOS DO DIAGNÓSTICO ====\n"),
+        diagnosticar_lista(Lista)
+    ).
 
