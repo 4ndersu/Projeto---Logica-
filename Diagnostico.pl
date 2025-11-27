@@ -1,8 +1,10 @@
 % ==========================
-% BASE DE DADOS - DIAGNÓSTICO DE COMPUTADORES
+% BASE DE CONHECIMENTO - DIAGNÓSTICO DE COMPUTADORES
 % ==========================
 
-%Fatos
+% --- Fatos ---
+
+% Estutura sintoma(Sintoma).
 
 % --- Sintomas relacionados a hardware ---
 sintoma(computador_nao_liga).
@@ -33,7 +35,9 @@ sintoma(desconexao_frequente).
 sintoma(rede_nao_identificada).
 sintoma(wifi_desconecta_sozinha).
 
-% --- Possíveis causas de hardware ---
+%Estrutura causa(Causa)..
+
+% --- Causas relacionadas a hardware ---
 causa(fonte_queimada).
 causa(memoria_ram_defeituosa).
 causa(hd_com_setores_danificados).
@@ -45,7 +49,7 @@ causa(fonte_insuficiente).
 causa(cooler_parado).
 causa(bateria_cmos_fraca).
 
-% --- Possíveis causas de software ---
+% --- Causas relacionadas a software ---
 causa(driver_incorreto).
 causa(virus_ou_malware).
 causa(atualizacao_mal_sucedida).
@@ -56,7 +60,7 @@ causa(software_incompativel).
 causa(instalacao_incompleta_do_sistema).
 causa(registro_corrompido).
 
-% --- Possíveis causas de rede ---
+% --- Causas relacionadas a rede ---
 causa(modem_desconectado).
 causa(roteador_com_defeito).
 causa(cabo_rede_danificado).
@@ -67,44 +71,7 @@ causa(configuracao_rede_incorreta).
 causa(interferencia_wifi).
 causa(problema_provedor_internet).
 
-%----niveis de risco hardware ----
-gravidade(fonte_queimada, alta).
-gravidade(memoria_ram_defeituosa, media).
-gravidade(hd_com_setores_danificados, alta).
-gravidade(placa_mae_defeituosa, alta).
-gravidade(processador_superaquecendo, alta).
-gravidade(cabo_energia_solto, baixa).
-gravidade(placa_de_video_defeituosa, media).
-gravidade(fonte_insuficiente, media).
-gravidade(cooler_parado, media).
-gravidade(bateria_cmos_fraca, baixa).
-
-%----niveis de risco software ----
-gravidade(driver_incorreto, media).
-gravidade(virus_ou_malware, alta).
-gravidade(atualizacao_mal_sucedida, media).
-gravidade(arquivos_sistema_corrompidos, alta).
-gravidade(excesso_programas_inicializacao, baixa).
-gravidade(falta_de_memoria_virtual, media).
-gravidade(software_incompativel, baixa).
-gravidade(instalacao_incompleta_do_sistema, alta).
-gravidade(registro_corrompido, media).
-
-%----niveis de risco rede ----
-gravidade(modem_desconectado, baixa).
-gravidade(roteador_com_defeito, media).
-gravidade(cabo_rede_danificado, baixa).
-gravidade(dns_invalido, media).
-gravidade(ip_conflitante, media).
-gravidade(driver_rede_desatualizado, baixa).
-gravidade(configuracao_rede_incorreta, media).
-gravidade(interferencia_wifi, baixa).
-gravidade(problema_provedor_internet, alta).
-
-% --- Pesos de gravidade(causas) ---
-peso_gravidade(alta, 3).
-peso_gravidade(media, 2).
-peso_gravidade(baixa, 1).
+%Estrutura componente(Componente).
 
 % --- Componentes de hardware ---
 componente(fonte).
@@ -131,7 +98,54 @@ componente(cabo_rede).
 componente(dns).
 componente(ip).
 
-% --- Tipo de Causa Hardware ---
+%Estrurtura gravidade(Causa, NivelGravidade).
+%Niveis definidos são: alta, media, baixa.
+
+% --- Niveis de risco hardware ---
+gravidade(fonte_queimada, alta).
+gravidade(memoria_ram_defeituosa, media).
+gravidade(hd_com_setores_danificados, alta).
+gravidade(placa_mae_defeituosa, alta).
+gravidade(processador_superaquecendo, alta).
+gravidade(cabo_energia_solto, baixa).
+gravidade(placa_de_video_defeituosa, media).
+gravidade(fonte_insuficiente, media).
+gravidade(cooler_parado, media).
+gravidade(bateria_cmos_fraca, baixa).
+
+% --- Niveis de risco software ---
+gravidade(driver_incorreto, media).
+gravidade(virus_ou_malware, alta).
+gravidade(atualizacao_mal_sucedida, media).
+gravidade(arquivos_sistema_corrompidos, alta).
+gravidade(excesso_programas_inicializacao, baixa).
+gravidade(falta_de_memoria_virtual, media).
+gravidade(software_incompativel, baixa).
+gravidade(instalacao_incompleta_do_sistema, alta).
+gravidade(registro_corrompido, media).
+
+%--- Niveis de risco rede ---
+gravidade(modem_desconectado, baixa).
+gravidade(roteador_com_defeito, media).
+gravidade(cabo_rede_danificado, baixa).
+gravidade(dns_invalido, media).
+gravidade(ip_conflitante, media).
+gravidade(driver_rede_desatualizado, baixa).
+gravidade(configuracao_rede_incorreta, media).
+gravidade(interferencia_wifi, baixa).
+gravidade(problema_provedor_internet, alta).
+
+%Estrutura peso_gravidade(NivelGravidade, Peso).
+
+% --- Pesos de Gravidade ---
+peso_gravidade(alta, 3).
+peso_gravidade(media, 2).
+peso_gravidade(baixa, 1).
+
+%Estrutura tipo_causa(Causa, Tipo).
+%Tipos definidos são: hardware, software, rede.
+
+% --- Tipo de Causa hardware ---
 tipo_causa(fonte_queimada, hardware).
 tipo_causa(memoria_ram_defeituosa, hardware).
 tipo_causa(hd_com_setores_danificados, hardware).
@@ -143,7 +157,7 @@ tipo_causa(fonte_insuficiente, hardware).
 tipo_causa(cooler_parado, hardware).
 tipo_causa(bateria_cmos_fraca, hardware).
 
-% --- Tipo de Causa Software ---
+% --- Tipo de Causa software ---
 tipo_causa(driver_incorreto, software).
 tipo_causa(virus_ou_malware, software).
 tipo_causa(atualizacao_mal_sucedida, software).
@@ -154,7 +168,7 @@ tipo_causa(software_incompativel, software).
 tipo_causa(instalacao_incompleta_do_sistema, software).
 tipo_causa(registro_corrompido, software).
 
-% --- Tipo de Causa Rede ---
+% --- Tipo de Causa rede ---
 tipo_causa(modem_desconectado, rede).
 tipo_causa(roteador_com_defeito, rede).
 tipo_causa(cabo_rede_danificado, rede).
@@ -164,6 +178,8 @@ tipo_causa(driver_rede_desatualizado, rede).
 tipo_causa(configuracao_rede_incorreta, rede).
 tipo_causa(interferencia_wifi, rede).
 tipo_causa(problema_provedor_internet, rede).
+
+%Estrutura causa_componente(Causa, Componente).
 
 % --- Causas relacionadas a componentes de hardware ---
 causa_componente(fonte_queimada, fonte).
@@ -199,7 +215,10 @@ causa_componente(configuracao_rede_incorreta, placa_de_rede).
 causa_componente(interferencia_wifi, roteador).
 causa_componente(problema_provedor_internet, modem).
 
-% --- Relações entre sintomas e causas de hardware com probabilidade ---
+%Estrutura problema(Sintoma, Causa, Probabilidade).
+%Probabilidades definidas são: muito_provavel, provavel, pouco_provavel.
+
+% --- Problemas de hardware ---
 problema(computador_nao_liga, placa_mae_defeituosa, pouco_provavel).
 problema(computador_nao_liga, fonte_queimada, muito_provavel).
 problema(computador_nao_liga, cabo_energia_solto, provavel).
@@ -237,7 +256,7 @@ problema(desempenho_lento_geral, processador_superaquecendo, pouco_provavel).
 problema(desempenho_lento_geral, hd_com_setores_danificados, muito_provavel).
 problema(desempenho_lento_geral, falta_de_memoria_virtual, muito_provavel).
 
-% --- Relações entre sintomas e causas de software ---
+% --- Problemas de software ---
 problema(tela_azul, virus_ou_malware, pouco_provavel).
 problema(tela_azul, memoria_ram_defeituosa, provavel).
 problema(tela_azul, registro_corrompido, provavel).
@@ -277,7 +296,7 @@ problema(sistema_reinicia_apos_atualizacao, driver_incorreto, provavel).
 problema(sistema_reinicia_apos_atualizacao, arquivos_sistema_corrompidos, muito_provavel).
 problema(sistema_reinicia_apos_atualizacao, atualizacao_mal_sucedida, muito_provavel).
 
-% --- Relações entre sintomas e causas de rede ---
+% --- Problemas de rede ---
 problema(sem_conexao_internet, problema_provedor_internet, muito_provavel).
 problema(sem_conexao_internet, cabo_rede_danificado, provavel).
 problema(sem_conexao_internet, modem_desconectado, muito_provavel).
@@ -299,12 +318,17 @@ problema(rede_nao_identificada, configuracao_rede_incorreta, muito_provavel).
 
 problema(wifi_desconecta_sozinha, interferencia_wifi, muito_provavel).
 
+%Estrutura peso_probabilidade(Probabilidade, Peso).
+
 % --- Pesos de Probabilidade ---
 peso_probabilidade(muito_provavel, 3).
 peso_probabilidade(provavel, 2).
 peso_probabilidade(pouco_provavel, 1).
 
-% --- Soluções de Hardware ---
+
+%Estrutura solucao(Causa, Solucao).
+
+% --- Soluções de hardware ---
 solucao(fonte_queimada, 'Substituir a fonte de alimentacao por uma nova compativel.').
 solucao(cabo_energia_solto, 'Verificar e reconectar firmemente o cabo de energia.').
 solucao(placa_mae_defeituosa, 'Requer a substituicao da placa-mae.').
@@ -316,7 +340,7 @@ solucao(fonte_insuficiente, 'Substituir a fonte por uma com maior potencia (watt
 solucao(cooler_parado, 'Verificar conexoes e substituir o cooler se estiver queimado.').
 solucao(bateria_cmos_fraca, 'Substituir a bateria CMOS (CR2032).').
 
-% --- Soluções de Software ---
+% --- Soluções de software ---
 solucao(driver_incorreto, 'Atualizar, reverter ou reinstalar o driver correto do fabricante.').
 solucao(virus_ou_malware, 'Executar uma varredura completa com software antivirus/antimalware atualizado.').
 solucao(atualizacao_mal_sucedida, 'Usar o Ponto de Restauracao do sistema para reverter a atualizacao.').
@@ -327,7 +351,7 @@ solucao(software_incompativel, 'Desinstalar o software ou executa-lo em Modo de 
 solucao(instalacao_incompleta_do_sistema, 'Tentar uma reparacao ou realizar uma instalacao limpa (formatacao).').
 solucao(registro_corrompido, 'Usar ferramentas confiaveis para limpar/reparar o registro ou restaurar o sistema.').
 
-% --- Soluções de Rede ---
+% --- Soluções de rede ---
 solucao(modem_desconectado, 'Verificar cabos e reiniciar o modem (desligar e ligar).').
 solucao(roteador_com_defeito, 'Reiniciar o roteador. Se persistir, testar com outro ou substituir.').
 solucao(cabo_rede_danificado, 'Substituir o cabo de rede (Ethernet) por um novo.').
@@ -338,7 +362,15 @@ solucao(configuracao_rede_incorreta, 'Executar a Solucao de Problemas de Rede ou
 solucao(interferencia_wifi, 'Mudar o canal Wi-Fi do roteador ou aproximar o dispositivo.').
 solucao(problema_provedor_internet, 'Entrar em contato com o provedor para verificar a linha.').
 
-%regra principal de diagnóstico
+
+%Regras
+
+%===========================
+% REGRA DE DIAGNOSTICO
+%===========================
+
+%Regra de diagnostico simples que retorna todas as informacoes de um sintoma
+%Utiliza os predicados definidos na base de conhecimento com o atributo Causa em comum
 diagnostico(Sintoma, Causa, Componente, Tipo, Solucao, Gravidade, Probabilidade) :-
     problema(Sintoma, Causa, Probabilidade),
     causa_componente(Causa, Componente),
@@ -346,82 +378,96 @@ diagnostico(Sintoma, Causa, Componente, Tipo, Solucao, Gravidade, Probabilidade)
     solucao(Causa, Solucao),
     gravidade(Causa, Gravidade).
 
-%regra para listar cauas possiveis de um sintoma
+%===========================
+% REGRAS DE CONSULTA DE SINTOMAS E CAUSAS POSSIVEIS
+%===========================
+
+%Regra para listar causas possiveis através um sintoma
 causas_possiveis(Sintoma, Lista) :-
-    findall(Causa, problema(Sintoma, Causa, _), Lista).
+    findall(Causa, problema(Sintoma, Causa, _), Lista). %Utiliza findall para criar uma lista de causas associadas ao sintoma
 
-%regra para listar sintomas possiveis de um causa
+%Regra para listar sintomas possiveis através uma causa
 sintomas_possiveis(Causa, Lista) :-
-    findall(Sintoma, problema(Sintoma, Causa, _), Lista).
+    findall(Sintoma, problema(Sintoma, Causa, _), Lista). %Utiliza findall para criar uma lista de sintomas associados a causa
 
-%regra para obter peso de probabilidade de uma causa para um sintoma
+%===========================
+% REGRAS DE PESOS E ORDENAÇÃO DE PROBABILIDADES E GRAVIDADES
+%===========================    
+
+%Regra para obter peso de probabilidade de uma causa para um sintoma
+%Associa o peso de probabilidade ao problema
 problema_com_peso_prob(Sintoma, Causa, Peso) :-
     problema(Sintoma, Causa, Probabilidade),
     peso_probabilidade(Probabilidade, Peso).
 
-%regra para obter peso da gravidade de uma causa
+%Regra para obter peso da gravidade de uma causa
+%Associa o peso de gravidade a causa
 peso_da_gravidade(Causa, Peso) :-
     gravidade(Causa, Nivel),
     peso_gravidade(Nivel, Peso).
 
-%regra para ordenar causas por peso de probabilidade em ordem decrescente(da mais provavel para a menos provavel)
+%Regra para ordenar causas por peso de probabilidade em ordem decrescente(da mais provavel para a menos provavel)
 ordenar_problemas_provaveis(Sintoma, ListaOrdenada) :-
-    findall((Causa, Peso), problema_com_peso_prob(Sintoma, Causa, Peso), Lista),
-    sort(2, @>=, Lista, ListaOrdenada).
+    findall((Causa, Peso), problema_com_peso_prob(Sintoma, Causa, Peso), Lista), %Cria lista de tuplas (Causa, Peso)
+    sort(2, @>=, Lista, ListaOrdenada). %Ordena a lista pela segunda posicao (Peso) em ordem decrescente
 
-%regra para listar causas com seus pesos de gravidade
+%Regra para listar causas com seus pesos de gravidade
 listar_gravidades(Sintoma, Lista) :-
-    findall((Causa, Peso),
-            (problema(Sintoma, Causa, _),  % aqui não importa probabilidade
-             peso_da_gravidade(Causa, Peso)),
+    findall((Causa, Peso), %Cria tuplas (Causa, Peso)
+            (problema(Sintoma, Causa, _),  %Aqui não importa probabilidade
+             peso_da_gravidade(Causa, Peso)), %Associa peso de gravidade a causa
             Lista).
 
 %regra para ordenar causas por gravidade em ordem decrescente(da mais grave para a menos grave)
 ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
-    listar_gravidades(Sintoma, Lista),
-    sort(2, @>=, Lista, ListaOrdenada).
+    listar_gravidades(Sintoma, Lista), %Chama a regra listar_gravidades para obter a lista de causas com pesos
+    sort(2, @>=, Lista, ListaOrdenada).%Ordena a lista pela segunda posicao (Peso) em ordem decrescente
 
 
 % ==========================
 % DIAGNOSTICO INTERATIVO
 % ==========================
 
+%Gera uma lista de todos os sintomas disponíveis na base de conhecimento
 lista_sintomas(Lista) :-
     findall(S, sintoma(S), Lista).
 
-% Pergunta ao usuario sobre cada sintoma
+%Pergunta ao usuario sobre cada sintoma
 perguntar(Sintoma, Resposta) :-
-    format("O computador apresenta ~w? (s/n ou outra tecla para parar): ", [Sintoma]),
-    read(Resp),
-    (Resp == s -> Resposta = s ;
-     Resp == n -> Resposta = n ;
-     Resposta = parar).
+    format("O computador apresenta ~w? (s/n ou outra tecla para parar): ", [Sintoma]), %Usa format para exibir a saída de texto
+    read(Resp), %Utiliza read para ler a resposta do usuario
+    (Resp == s -> Resposta = s ; %Se digitou 's', confirma sintoma
+     Resp == n -> Resposta = n ; %Se digitou 'n', nega sintoma
+     Resposta = parar). %Se digitou outra coisa, para o processo
 
+% Coleta sintomas confirmados pelo usuario
 coletar_sintomas([], []).
-coletar_sintomas([S|R], Final) :-
+coletar_sintomas([S|R], Final) :- %Caso base: lista vazia
     perguntar(S, Resp),
-    ( Resp == parar ->
-        Final = []
-    ; Resp == s ->
-        coletar_sintomas(R, Resto),
-        Final = [S|Resto]
-    ; Resp == n ->
-        coletar_sintomas(R, Final)
+    ( Resp == parar -> 
+        Final = [] % Se o usuario quiser parar, retorna lista
+    ; Resp == s -> 
+        coletar_sintomas(R, Resto), 
+        Final = [S|Resto] %Se o sintoma for confirmado, chama recursivamente para o resto da lista e adiciona o sintoma confirmado à lista final
+    ; Resp == n -> 
+        coletar_sintomas(R, Final) %Se o sintoma for negado, chama recursivamente para o resto da lista sem adicionar o sintoma
     ).
 
 % Diagnostica um sintoma e exibe as causas possíveis
 diagnosticar_sintoma(S) :-
-    format("\nSintoma: ~w\n", [S]),
-    listar_causas(S).
+    format("\nSintoma: ~w\n", [S]), %Exibe o sintoma atual
+    listar_causas(S). %Chama a regra listar_causas para exibir as causas possíveis
 
 % Lista causas possíveis com detalhes
 listar_causas(S) :-
+    %Para cada causa associada ao sintoma, exibe detalhes
     problema(S, Causa, Probabilidade),
     causa_componente(Causa, Componente),
     tipo_causa(Causa, Tipo),
     solucao(Causa, Solucao),
     gravidade(Causa, Gravidade),
 
+    %Exibe as informações formatadas em texto
     format("  - Causa: ~w\n", [Causa]),
     format("      Componente: ~w\n", [Componente]),
     format("      Tipo: ~w\n", [Tipo]),
@@ -429,23 +475,29 @@ listar_causas(S) :-
     format("      Probabilidade: ~w\n", [Probabilidade]),
     format("      Solução: ~w\n\n", [Solucao]),
 
-    fail.  % → força encontrar próxima causa no backtracking
+    fail.  % → força encontrar próxima causa no backtracking(Busca todas as soluções possíveis para a consulta)
 
 listar_causas(_).  % → quando acabar as causas, finaliza 
 
 % Diagnostica uma lista de sintomas
-diagnosticar_lista([]).
+diagnosticar_lista([]).% Caso base: lista vazia
+
+% Chama diagnosticar_sintoma para o primeiro sintoma da lista: diagnostica o sintoma atual e chama recursivamente para o resto da lista
 diagnosticar_lista([S|R]) :-
     diagnosticar_sintoma(S),
     diagnosticar_lista(R).
 
+% Inicia o processo de diagnóstico interativo, envolve todos as funções anteriores
 iniciar :-
+    %Inicialmente cria um lista de sintomas e coleta os confirmados pelo usuário
+    writeln("==== SISTEMA DE DIAGNÓSTICO DE COMPUTADORES ====\n"),
     lista_sintomas(Lista),
     coletar_sintomas(Lista, SintomasConfirmados),
 
+    %Caso nenhum sintoma seja confirmado, encerra o processo
     ( SintomasConfirmados == [] ->
         writeln("\nNenhum sintoma confirmado. Encerrando.")
-    ; 
+    ;   %Caso contrário, inicia o diagnóstico para os sintomas confirmados.
         writeln("\n==== RESULTADOS DO DIAGNÓSTICO ====\n"),
         diagnosticar_lista(SintomasConfirmados)
     ).
