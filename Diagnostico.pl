@@ -381,9 +381,13 @@ ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
     listar_gravidades(Sintoma, Lista),
     sort(2, @>=, Lista, ListaOrdenada).
 
+
 % ==========================
 % DIAGNOSTICO INTERATIVO
 % ==========================
+
+lista_sintomas(Lista) :-
+    findall(S, sintoma(S), Lista).
 
 % Pergunta ao usuario sobre cada sintoma
 perguntar(Sintoma, Resposta) :-
@@ -393,24 +397,17 @@ perguntar(Sintoma, Resposta) :-
      Resp == n -> Resposta = n ;
      Resposta = parar).
 
-% Coleta sintomas confirmados pelo usuario
-coletar_sintomas(Acumulado, Final) :-
-    sintoma(S),
-    \+ member(S, Acumulado),
+coletar_sintomas([], []).
+coletar_sintomas([S|R], Final) :-
     perguntar(S, Resp),
-
     ( Resp == parar ->
-        Final = Acumulado ;
-
-      Resp == s ->
-        coletar_sintomas([S|Acumulado], Final) ;
-
-      Resp == n ->
-        coletar_sintomas(Acumulado, Final)
+        Final = []
+    ; Resp == s ->
+        coletar_sintomas(R, Resto),
+        Final = [S|Resto]
+    ; Resp == n ->
+        coletar_sintomas(R, Final)
     ).
-
-% quando acabar os sintomas, retorna lista
-coletar_sintomas(Final, Final).
 
 % Diagnostica um sintoma e exibe as causas possíveis
 diagnosticar_sintoma(S) :-
@@ -442,15 +439,14 @@ diagnosticar_lista([S|R]) :-
     diagnosticar_sintoma(S),
     diagnosticar_lista(R).
 
-% Inicia o diagnóstico interativo
 iniciar :-
-    write("===== Iniciando diagnóstico =====\n"),
-    coletar_sintomas([], Lista),
+    lista_sintomas(Lista),
+    coletar_sintomas(Lista, SintomasConfirmados),
 
-    ( Lista == [] ->
-        write("\nNenhum sintoma confirmado. Encerrando.\n")
-    ;
-        write("\n==== RESULTADOS DO DIAGNÓSTICO ====\n"),
-        diagnosticar_lista(Lista)
+    ( SintomasConfirmados == [] ->
+        writeln("\nNenhum sintoma confirmado. Encerrando.")
+    ; 
+        writeln("\n==== RESULTADOS DO DIAGNÓSTICO ====\n"),
+        diagnosticar_lista(SintomasConfirmados)
     ).
 
