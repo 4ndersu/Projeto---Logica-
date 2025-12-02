@@ -394,6 +394,10 @@ sintomas_possiveis(Causa, Lista) :-
 % REGRAS DE PESOS E ORDENAÇÃO DE PROBABILIDADES E GRAVIDADES
 %===========================    
 
+%ordenas_problemas_provaveis e ordenar_por_gravidade são responsaveis por salvar as causas relacionadas em uma lista usando findall e depois ordenar essa lista com base nos pesos de probabilidade ou gravidade usando sort.
+
+%----------Regras axuliares----------
+
 %Regra para obter peso de probabilidade de uma causa para um sintoma
 %Associa o peso de probabilidade ao problema
 problema_com_peso_prob(Sintoma, Causa, Peso) :-
@@ -406,17 +410,19 @@ peso_da_gravidade(Causa, Peso) :-
     gravidade(Causa, Nivel),
     peso_gravidade(Nivel, Peso).
 
-%Regra para ordenar causas por peso de probabilidade em ordem decrescente(da mais provavel para a menos provavel)
-ordenar_problemas_provaveis(Sintoma, ListaOrdenada) :-
-    findall((Causa, Peso), problema_com_peso_prob(Sintoma, Causa, Peso), Lista), %Cria lista de tuplas (Causa, Peso)
-    sort(2, @>=, Lista, ListaOrdenada). %Ordena a lista pela segunda posicao (Peso) em ordem decrescente
-
 %Regra para listar causas com seus pesos de gravidade
 listar_gravidades(Sintoma, Lista) :-
     findall((Causa, Peso), %Cria tuplas (Causa, Peso)
             (problema(Sintoma, Causa, _),  %Aqui não importa probabilidade
              peso_da_gravidade(Causa, Peso)), %Associa peso de gravidade a causa
             Lista).
+
+%----------Regras principais----------
+
+%Regra para ordenar causas por peso de probabilidade em ordem decrescente(da mais provavel para a menos provavel)
+ordenar_problemas_provaveis(Sintoma, ListaOrdenada) :-
+    findall((Causa, Peso), problema_com_peso_prob(Sintoma, Causa, Peso), Lista), %Cria lista de tuplas (Causa, Peso)
+    sort(2, @>=, Lista, ListaOrdenada). %Ordena a lista pela segunda posicao (Peso) em ordem decrescente
 
 %regra para ordenar causas por gravidade em ordem decrescente(da mais grave para a menos grave)
 ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
@@ -427,6 +433,8 @@ ordenar_por_gravidade(Sintoma, ListaOrdenada) :-
 % ==========================
 % DIAGNOSTICO INTERATIVO
 % ==========================
+
+%--------- Regras auxiliares ---------
 
 %Gera uma lista de todos os sintomas disponíveis na base de conhecimento
 lista_sintomas(Lista) :-
@@ -441,8 +449,9 @@ perguntar(Sintoma, Resposta) :-
      Resposta = parar). %Se digitou outra coisa, para o processo
 
 % Coleta sintomas confirmados pelo usuario
-coletar_sintomas([], []).
-coletar_sintomas([S|R], Final) :- %Caso base: lista vazia
+coletar_sintomas([], []). %Caso base: lista vazia
+
+coletar_sintomas([S|R], Final) :- 
     perguntar(S, Resp),
     ( Resp == parar -> 
         Final = [] % Se o usuario quiser parar, retorna lista
@@ -486,6 +495,8 @@ diagnosticar_lista([]).% Caso base: lista vazia
 diagnosticar_lista([S|R]) :-
     diagnosticar_sintoma(S),
     diagnosticar_lista(R).
+
+%-------------Regra principal-------------
 
 % Inicia o processo de diagnóstico interativo, envolve todos as funções anteriores
 iniciar :-
